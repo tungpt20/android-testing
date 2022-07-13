@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.android.architecture.blueprints.todoapp.addedittask
+package com.example.android.architecture.blueprints.todoapp.taskaddedit
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -25,6 +25,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.android.architecture.blueprints.todoapp.EventObserver
 import com.example.android.architecture.blueprints.todoapp.R
+import com.example.android.architecture.blueprints.todoapp.TodoApplication
 import com.example.android.architecture.blueprints.todoapp.databinding.AddtaskFragBinding
 import com.example.android.architecture.blueprints.todoapp.tasks.ADD_EDIT_RESULT_OK
 import com.example.android.architecture.blueprints.todoapp.util.setupRefreshLayout
@@ -40,7 +41,11 @@ class AddEditTaskFragment : Fragment() {
 
     private val args: AddEditTaskFragmentArgs by navArgs()
 
-    private val viewModel by viewModels<AddEditTaskViewModel>()
+    private val viewModel by viewModels<AddEditTaskViewModel>() {
+        val tasksRepository =
+            (requireActivity().applicationContext as TodoApplication).taskRepository
+        AddEditTaskViewModelFactory(tasksRepository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
